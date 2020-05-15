@@ -1,0 +1,233 @@
+import java.util.Arrays;
+import java.util.Random;
+import java.util.Scanner;
+public class noughtsXcrosses {
+ public static int row, col;
+ public static Scanner scan = new Scanner(System.in);
+ public static char [][] gameboard = new char [3][3];
+ public static char turn = 'X';
+ public static String finalresult = "";
+ public static int charX, charO,charBlank;
+ public static boolean playing;
+ public static void main(String[] args) {
+  play();
+ }
+
+ public static boolean ValSquare(char character) {
+  if(character == 'O' || character == 'X') {
+   System.out.println("Valid game character");
+   return true;
+  }
+  else {
+   return false;
+  }
+ }
+ public static int CountBoard(char [][] gameboard) {
+  int charX = 0;
+  int charO = 0;
+  int charBlank = 0;
+  for(int row =0; row<gameboard.length; row++) {
+   for(int col=0;col<gameboard.length; col++) {
+    if(gameboard[row][col] == 'X')
+     charX++;
+   }
+  }
+  System.out.println(charX);
+  return charX;
+ }
+ public static boolean valBoard(char [][] gameboard) {
+  int charX = 0;
+  int charO = 0;
+  int charBlank = 0;
+  for(int row =0; row<gameboard.length; row++) {
+   for(int col=0;col<gameboard.length; col++) {
+    if(gameboard[row][col] == 'X') {
+     charX++;
+    }
+    else if(gameboard[row][col] == 'O') {
+     charO++;
+    }
+    else if(gameboard[row][col] == '.') {
+     charBlank++;
+    }
+   }
+  }
+  if(charX + charO + charBlank == 9) {
+   if((charX == charO && charBlank == 9-(charX + charO))
+     || (charO + 1 == charX && charBlank == 9 -(charO + charX))) {
+    System.out.println("valid game board");
+    return true;
+   }
+  }
+  else
+   System.out.println("invalid game board");
+   return false;
+  
+ 
+//  if(charX == charO + 1 || charO == charX - 1 || charX == charO) {
+//   System.out.println("valid game board");
+//   return true;
+//  }
+//  else {
+//   System.out.println("invalid game board");
+//   return false;
+//  }
+ }
+ public static String DetectWin(char[][] gameboard) {
+  if (gameboard[0][0] == 'X' && (gameboard[0][1] == 'X') && (gameboard[0][2] == 'X')) {
+   finalresult = "Player wins";
+   playing = false;
+  } else if (gameboard[1][0] == 'X' && (gameboard[1][1] == 'X') && (gameboard[1][2] == 'X')) {
+   finalresult = "Player wins";
+  }
+  else if (gameboard[2][0] == 'X' && (gameboard[2][1] == 'X') && (gameboard[2][2] == 'X')) {
+   finalresult = "Player wins";
+  }
+  else if (gameboard[0][0] == 'X' && (gameboard[1][0] == 'X') && (gameboard[2][0]) == 'X') {
+   finalresult = "Player X wins";
+  }
+  else if (gameboard[0][1] == 'X' && (gameboard[1][1] == 'X') && (gameboard[2][1]) == 'X') {
+   finalresult = "Player X wins";
+  }
+  else if (gameboard[0][2] == 'X' && (gameboard[1][2] == 'X') && (gameboard[2][2]) == 'X') {
+   finalresult = "Player X wins";
+  }
+  else if (gameboard[0][0] == 'X' && (gameboard[1][1] == 'X') && (gameboard[2][2]) == 'X') {
+   finalresult = "Player X wins";
+
+  }
+  else if (gameboard[0][2] == 'X' && (gameboard[1][1] == 'X') && (gameboard[2][0]) == 'X') {
+   finalresult = "Player wins";
+  }
+  // opponent
+  else if (gameboard[0][0] == 'O' && (gameboard[0][1] == 'O') && (gameboard[0][2] == 'O')) {
+   finalresult = "Opponent wins";
+  } else if (gameboard[1][0] == 'O' && (gameboard[1][1] == 'O') && (gameboard[1][2] == 'O')) {
+   finalresult = "Opponent wins";
+  }
+  else if (gameboard[2][0] == 'O' && (gameboard[2][1] == 'O') && (gameboard[2][2] == 'O')) {
+   finalresult = "Opponent wins";
+  }
+  else if (gameboard[0][0] == 'O' && (gameboard[1][0] == 'O') && (gameboard[2][0]) == 'O') {
+   finalresult = "Opponent wins";
+  }
+  else if (gameboard[0][1] == 'O' && (gameboard[1][1] == 'O') && (gameboard[2][1]) == 'O') {
+   finalresult = "Opponent wins";
+  }
+  else if (gameboard[0][2] == 'O' && (gameboard[1][2] == 'O') && (gameboard[2][2]) == 'O') {
+   finalresult = "Opponent wins";
+  }
+  else if (gameboard[0][0] == 'O' && (gameboard[1][1] == 'O') && (gameboard[2][2]) == 'O') {
+   finalresult = "Opponent wins";
+  }
+  else if (gameboard[0][2] == 'O' && (gameboard[1][1] == 'O') && (gameboard[2][0]) == 'O') {
+   finalresult = "Opponent wins";
+  }
+  else if ((charX + charO == 9)) {
+   finalresult = "This game is a draw well played !";
+  } 
+  else {
+   finalresult = "Continue, we have still not found a winner ";
+  }
+  System.out.println(finalresult);
+  return finalresult;
+ }
+ public static String RndMove(char[][] gameboard) {
+  Random rand = new Random();
+  boolean playing = true;
+  int rndRow = rand.nextInt(3);
+  int rndCol = rand.nextInt(3);
+   
+   
+   if (gameboard[row][col] == '.') {
+    gameboard[rndRow][rndCol] = turn;
+    if (turn == 'X') {
+     turn = 'O';
+    }
+    else {
+     turn = 'X';
+    }
+    rndRow = rand.nextInt(3);
+    rndCol = rand.nextInt(3);
+    gameboard[rndRow][rndCol] = turn;
+     
+    System.out.println("The Opponent has made a play!!");
+    if (valBoard(gameboard) == true) {
+     finalresult = DetectWin(gameboard);
+//     System.out.println(finalresult);
+    } else {
+     System.out.println("Unfair move count detected on new board");
+    }
+    playing = false;
+   }
+   return finalresult;
+  }
+  
+ 
+ public static void play() {
+  boolean playing = true;
+  for(int row =0; row<gameboard.length; row++) {
+   for(int col=0;col<gameboard.length; col++)
+    gameboard[row][col] = '.';
+  }
+  printboard();
+  System.out.println();
+  
+   System.out.println("Enter row and column number");
+   //   row = scan.nextInt() - 1;
+   //   col = scan.nextInt() - 1;
+   RndMove(gameboard);
+//   gameboard[row][col] = turn;
+//   ValSquare(turn);
+//   CountBoard(gameboard);
+//   valBoard(gameboard);
+//   DetectWin(gameboard);
+   printboard();
+//   if (turn == 'X')
+//    turn = 'O';
+//   else
+//    turn = 'X';
+  
+ }
+ public static void printboard() {
+  for(int row =0; row<gameboard.length; row++) {
+   for(int col=0;col<gameboard.length; col++)
+   {
+    System.out.print("  " + gameboard[row][col]);
+    if(col == 0 || col ==1)
+     System.out.print("¦");
+   }
+   if(row == 0 || row == 1)
+    System.out.print("\n---+---+---\n");
+  }
+  System.out.println();
+ }
+ // public static boolean DetectWin(int rowMove, int colMove) {
+ //  if(gameboard[0][colMove] == gameboard[1][colMove]
+ //    && gameboard[1][colMove] == gameboard[2][colMove] && gameboard[1][1] != '.')
+ //   return true;
+ //  else if(gameboard[rowMove][0] == gameboard[rowMove][1]
+ //    && gameboard[rowMove][1] == gameboard[rowMove][2] && gameboard[1][1] != '.')
+ //   return true;
+ //  else if(gameboard[0][0] == gameboard[1][1]
+ //    && gameboard[1][1] == gameboard[2][2] && gameboard[1][1] != '.')
+ //   return true;
+ //  else if(gameboard[0][2] == gameboard[1][1]
+ //    && gameboard[1][1] == gameboard[2][0] && gameboard[1][1] != '.')
+ //   return true;
+ //  else if(gameboard[0][colMove] != gameboard[1][colMove] && gameboard[1][colMove] != gameboard[2][colMove] ||
+ //    gameboard[rowMove][0] != gameboard[rowMove][1] && gameboard[rowMove][1] != gameboard[rowMove][2] ||
+ //    gameboard[0][0] != gameboard[1][1] && gameboard[1][1] != gameboard[2][2] ||
+ //    gameboard[0][2] != gameboard[1][1] && gameboard[1][1] != gameboard[2][0] && gameboard[1][1] != ('.')) {
+ //   System.out.println("Game is a draw!");
+ //
+ //  }
+ //  return false;
+ //
+ //
+ //
+ //
+ // }
+
+}
+
